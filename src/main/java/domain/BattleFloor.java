@@ -1,17 +1,15 @@
 package domain;
 
 
+import utils.PositionHelper;
+
 import static java.lang.System.out;
 
 public class BattleFloor {
     public int[][] area;
-    public final int playerId;
-    public int missilesLeft;
 
-    public BattleFloor(Dimension dimension, int playerId, int missilesLeft) {
+    public BattleFloor(Dimension dimension) {
         this.area = new int[dimension.WIDTH][dimension.HEIGHT];
-        this.playerId = playerId;
-        this.missilesLeft = missilesLeft;
     }
 
     public void positionShipToFloor(Ship ship) {
@@ -38,14 +36,15 @@ public class BattleFloor {
         }
     }
 
-    public boolean attackAt(Position position, int playerId) {
+    public boolean attackAt(String stringPosition, int playerId) {
+        Position position = PositionHelper.toBedCooridinates(stringPosition);
         int positionWeight = this.area[position.xCoord][position.yCoord];
         if (positionWeight > 0) {
             this.area[position.xCoord][position.yCoord] = positionWeight - 1;
-            System.out.println("Player-" + playerId + " fires a missile with target " + position.toString() + " which got hit");
+            out.println("Player-" + playerId + " fires a missile with target " + stringPosition + " which got hit");
             return true;
         }
-        System.out.println("Player-" + playerId + " fires a missile with target " + position.toString() + " which got miss");
+        out.println("Player-" + playerId + " fires a missile with target " + stringPosition + " which got miss");
         return false;
     }
 

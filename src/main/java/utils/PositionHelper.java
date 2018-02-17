@@ -34,9 +34,7 @@ public class PositionHelper {
         return new Dimension(width, height);
     }
 
-    public static List<Position> toListOfAttackPositions(String attackString) {
-        return Stream.of(attackString.split(" "))
-                .map(PositionHelper::toBedCooridinates)
-                .collect(toList());
+    public static List<String> toListOfAttackPositions(String attackString) {
+        return Stream.of(attackString.split(" ")).collect(toList());
     }
 }
