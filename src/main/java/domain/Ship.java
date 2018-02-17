@@ -11,6 +11,11 @@ public class Ship {
         this.shipType = shipType;
     }
 
+    @Override
+    public String toString() {
+        return dim + "-" + initialPosition + "-" + shipType;
+    }
+
     public enum ShipType {
         P(1), Q(2);
 

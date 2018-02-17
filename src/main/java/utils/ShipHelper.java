@@ -10,7 +10,6 @@ import static utils.PositionHelper.toInt;
 public class ShipHelper {
 
     public static Ship parseShipDetails(String data, int playerId) {
-        // "Q 1 1 A1 B2"
         String[] temp = data.split(" ");
         ShipType shipType = ShipType.findByName(temp[0]);
         Dimension dimension = new Dimension(toInt(temp[2], false), toInt(temp[1], false));
