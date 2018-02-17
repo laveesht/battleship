@@ -1,6 +1,7 @@
 import domain.BattleFloor;
 import domain.Dimension;
 import domain.Player;
+import domain.Ship;
 import utils.PositionHelper;
 
 import java.io.IOException;
@@ -24,6 +25,7 @@ public class Starter {
         //BattleGround dimensions
         String inputLine1 = lines.get(0);
         Dimension battleGroundDim = PositionHelper.toAreaDimensions(inputLine1);
+        InputValidator.validateBattleGroundDimension(battleGroundDim);
 
         BattleFloor playerABed = new BattleFloor(battleGroundDim);
         BattleFloor playerBBed = new BattleFloor(battleGroundDim);
@@ -31,11 +33,16 @@ public class Starter {
         //No of battleships
         String inputLine2 = lines.get(1);
         int noOfBattleShips = Integer.parseInt(inputLine2);
+        InputValidator.validateNoOfBattleShips(noOfBattleShips, battleGroundDim);
 
         //Position Battleships
         for (int i = 0; i < noOfBattleShips; i++) {
-            playerABed.positionShipToFloor(parseShipDetails(lines.get(2 + i), 1));
-            playerBBed.positionShipToFloor(parseShipDetails(lines.get(2 + i), 2));
+            Ship aShip = parseShipDetails(lines.get(2 + i), 1);
+            Ship bShip = parseShipDetails(lines.get(2 + i), 2);
+            InputValidator.validateShip(aShip, battleGroundDim);
+            InputValidator.validateShip(bShip, battleGroundDim);
+            playerABed.positionShipToFloor(aShip);
+            playerBBed.positionShipToFloor(bShip);
         }
 
         //Player Attack Positions
@@ -61,7 +68,7 @@ public class Starter {
         }
 
         if (doWeHaveAChampion(playerABed, playerBBed)) {
-            out.println("Player " + activePlayer + " won the battle");
+            out.println("Player-" + activePlayer + " won the battle");
         } else {
             out.println("Peace begins...");
         }

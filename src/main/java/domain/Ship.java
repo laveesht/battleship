@@ -1,9 +1,9 @@
 package domain;
 
 public class Ship {
-    final Dimension dim;
-    final Position initialPosition;
-    final ShipType shipType;
+    final public Dimension dim;
+    final public Position initialPosition;
+    final public ShipType shipType;
 
     public Ship(Dimension dim, Position initialPosition, ShipType shipType) {
         this.dim = dim;
@@ -31,7 +31,7 @@ public class Ship {
                     return t;
                 }
             }
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Ship type invalid");
         }
 
     }
