@@ -4,6 +4,11 @@ import domain.Dimension;
 import domain.Position;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.List;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
+
 public class PositionHelper {
 
     public static Position toBedCooridinates(String positions) {
@@ -27,5 +32,11 @@ public class PositionHelper {
         int height = toInt(dimensions.replaceAll("\\s+", "").substring(0, 1), false);
         int width = toInt(dimensions.replaceAll("\\s+", "").substring(1, 2), false);
         return new Dimension(width, height);
+    }
+
+    public static List<Position> toListOfAttackPositions(String attackString) {
+        return Stream.of(attackString.split(" "))
+                .map(PositionHelper::toBedCooridinates)
+                .collect(toList());
     }
 }

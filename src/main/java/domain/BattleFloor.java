@@ -6,10 +6,12 @@ import static java.lang.System.out;
 public class BattleFloor {
     public int[][] area;
     public final int playerId;
+    public int missilesLeft;
 
-    public BattleFloor(Dimension dimension, int playerId) {
+    public BattleFloor(Dimension dimension, int playerId, int missilesLeft) {
         this.area = new int[dimension.WIDTH][dimension.HEIGHT];
         this.playerId = playerId;
+        this.missilesLeft = missilesLeft;
     }
 
     public void positionShipToFloor(Ship ship) {
@@ -36,11 +38,24 @@ public class BattleFloor {
         }
     }
 
-    public void attack(Position position) {
-
+    public boolean attackAt(Position position, int playerId) {
+        int positionWeight = this.area[position.xCoord][position.yCoord];
+        if (positionWeight > 0) {
+            this.area[position.xCoord][position.yCoord] = positionWeight - 1;
+            System.out.println("Player-" + playerId + " fires a missile with target " + position.toString() + " which got hit");
+            return true;
+        }
+        System.out.println("Player-" + playerId + " fires a missile with target " + position.toString() + " which got miss");
+        return false;
     }
 
     public boolean completlyDestroyed() {
-        return false;
+        int temp = 0;
+        for (int i = 0; i < this.area.length; i++) {
+            for (int j = 0; j < this.area[0].length; j++) {
+                temp += this.area[i][j];
+            }
+        }
+        return temp == 0;
     }
 }
