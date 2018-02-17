@@ -11,8 +11,9 @@ public class BattleFloor {
     }
 
     public void positionShipToFloor(Ship ship) {
-        int shipHeight = 0;
-        int shipWidth = 0;
+        int shipHeight, shipWidth;
+        shipHeight = shipWidth = 0;
+
         do {
             this.area[ship.initialPosition.xCoord][ship.initialPosition.yCoord + shipHeight] = ship.shipType.weight;
             shipHeight++;
