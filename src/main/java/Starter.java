@@ -3,20 +3,27 @@ import domain.Dimension;
 import domain.Position;
 import utils.PositionHelper;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
 import static utils.PositionHelper.toListOfAttackPositions;
 import static utils.ShipHelper.parseShipDetails;
 
 public class Starter {
-    public static final int NO_OF_MISSILES = 10;
     public static int activePlayer = 1; //Assuming player1 takes first turn
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws IOException {
+        String inputFilePath = args.length > 0 ? args[0] : "src/main/resources/input.txt";
+
+        List<String> lines = Files.lines(Paths.get(inputFilePath)).collect(toList());
+
         //BattleGround dimensions
-        String inputLine1 = "5 E";
+        String inputLine1 = lines.get(0);
         //No of battleships
-        String inputLine2 = "2";
+        String inputLine2 = lines.get(1);
         int noOfBattleShips = Integer.parseInt(inputLine2);
 
         //BattleShip Positions
