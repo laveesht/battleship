@@ -5,9 +5,11 @@ import static java.lang.System.out;
 
 public class BattleFloor {
     public int[][] area;
+    public final int playerId;
 
-    public BattleFloor(Dimension dimension) {
+    public BattleFloor(Dimension dimension, int playerId) {
         this.area = new int[dimension.WIDTH][dimension.HEIGHT];
+        this.playerId = playerId;
     }
 
     public void positionShipToFloor(Ship ship) {

@@ -11,8 +11,8 @@ public class Starter {
     public static void main(String args[]) {
         String inputLine1 = "5 E";
         Dimension battleGroundDim = PositionHelper.toAreaDimensions(inputLine1);
-        BattleFloor playerABed = new BattleFloor(battleGroundDim);
-        BattleFloor playerBBed = new BattleFloor(battleGroundDim);
+        BattleFloor playerABed = new BattleFloor(battleGroundDim, 1);
+        BattleFloor playerBBed = new BattleFloor(battleGroundDim, 2);
 
         //No of battleships
         String inputLine2 = "2";
@@ -27,7 +27,6 @@ public class Starter {
         String inputLine4 = "P 2 1 D4 C3";
         playerABed.positionShipToFloor(parseShipDetails(inputLine4, 1));
         playerBBed.positionShipToFloor(parseShipDetails(inputLine4, 2));
-
 
         //Attack Positions
         String inputLine5 = "A1 B2 B2 B3";
