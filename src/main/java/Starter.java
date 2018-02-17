@@ -1,7 +1,6 @@
 import domain.BattleFloor;
 import domain.Dimension;
 import domain.Player;
-import domain.Position;
 import utils.PositionHelper;
 
 import java.io.IOException;
@@ -15,7 +14,7 @@ import static utils.PositionHelper.toListOfAttackPositions;
 import static utils.ShipHelper.parseShipDetails;
 
 public class Starter {
-    public static int activePlayer = 1; //Assuming player1 takes first turn
+    public static int activePlayer = 1; //ASSUMPTION: player1 takes first turn
 
     public static void main(String args[]) throws IOException {
         String inputFilePath = args.length > 0 ? args[0] : "src/main/resources/input.txt";
@@ -40,11 +39,11 @@ public class Starter {
         }
 
         //Player Attack Positions
-        String inputLine5 = lines.get(2 + noOfBattleShips);
-        String inputLine6 = lines.get(3 + noOfBattleShips);
+        String playerAAttackCoordinates = lines.get(2 + noOfBattleShips);
+        String playerBAttackCoordinates = lines.get(3 + noOfBattleShips);
 
-        List<String> playerAAttackPositions = toListOfAttackPositions(inputLine5);
-        List<String> playerBAttackPositions = toListOfAttackPositions(inputLine6);
+        List<String> playerAAttackPositions = toListOfAttackPositions(playerAAttackCoordinates);
+        List<String> playerBAttackPositions = toListOfAttackPositions(playerBAttackCoordinates);
 
 
         Player playerA = new Player(1, playerAAttackPositions);
@@ -69,7 +68,9 @@ public class Starter {
     }
 
     private static void computeActivePlayer(boolean hit) {
-        activePlayer = hit ? activePlayer : ((activePlayer == 1) ? 2 : 1);
+        if (!hit) {
+            activePlayer = (activePlayer == 1) ? 2 : 1;
+        }
     }
 
     private static boolean eitherPlayerBattleShipsSurvives(BattleFloor A, BattleFloor B) {
