@@ -3,7 +3,7 @@ import utils.PositionHelper;
 
 import static org.junit.Assert.assertEquals;
 
-public class PositionSpecs {
+public class PositionSpecTest {
 
     @Test
     public void correctlyParseBedPositions1() {
