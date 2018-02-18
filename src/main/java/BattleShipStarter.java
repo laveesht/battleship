@@ -2,6 +2,7 @@ import domain.BattleFloor;
 import domain.Dimension;
 import domain.Player;
 import domain.Ship;
+import utils.InputValidator;
 import utils.PositionHelper;
 
 import java.io.IOException;
@@ -14,7 +15,7 @@ import static java.util.stream.Collectors.toList;
 import static utils.PositionHelper.toListOfAttackPositions;
 import static utils.ShipHelper.parseShipDetails;
 
-public class Starter {
+public class BattleShipStarter {
     public static int activePlayer = 1; //ASSUMPTION: player1 takes first turn
 
     public static void main(String args[]) throws IOException {

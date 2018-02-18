@@ -26,16 +26,6 @@ public class BattleFloor {
         } while (shipWidth < ship.dim.WIDTH);
     }
 
-    public void displayBattleFloor() {
-        out.println("");
-        for (int i = 0; i < this.area.length; i++) {
-            out.println();
-            for (int j = 0; j < this.area[0].length; j++) {
-                out.print(this.area[i][j]);
-            }
-        }
-    }
-
     public boolean attackAt(String stringPosition, int playerId) {
         Position position = PositionHelper.toBedCooridinates(stringPosition);
         int positionWeight = this.area[position.xCoord][position.yCoord];
