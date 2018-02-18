@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Arrays;
 
 import static domain.Ship.ShipType.P;
 import static domain.Ship.ShipType.Q;
@@ -18,8 +19,9 @@ public class BattleFloorSpecTest {
 
     @Before
     public void resetFloor() {
-        battleFloor = new BattleFloor(new Dimension(5, 5), 0);
-        battleFloor.positionShipToFloor(new Ship(new Dimension(2, 1), new Position(0, 1), P));
+        Ship ship1 = new Ship(new Dimension(2, 1), new Position(0, 1), P);
+        Ship ship2 = new Ship(new Dimension(2, 1), new Position(3, 4), Q);
+        battleFloor = new BattleFloor(new Dimension(5, 5), Arrays.asList(ship1, ship2));
         System.setOut(new PrintStream(outContent));
     }
 
@@ -31,7 +33,6 @@ public class BattleFloorSpecTest {
 
     @Test
     public void correctlyAssignsShipWeight() {
-        battleFloor.positionShipToFloor(new Ship(new Dimension(2, 1), new Position(3, 4), Q));
         assertEquals(1, battleFloor.getPositionWeight(0, 1));
         assertEquals(2, battleFloor.getPositionWeight(3, 4));
         assertEquals(2, battleFloor.getPositionWeight(4, 4));

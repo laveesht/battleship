@@ -19,7 +19,7 @@ public class Ship {
     public enum ShipType {
         P(1), Q(2);
 
-        public int weight;
+        public final int weight;
 
         ShipType(int weight) {
             this.weight = weight;

@@ -4,18 +4,19 @@ package domain;
 import org.apache.commons.lang3.StringUtils;
 import utils.PositionHelper;
 
+import java.util.List;
+
 import static java.lang.System.out;
 
 public class BattleFloor {
-    public int playerId;
     private int[][] area;
 
-    public BattleFloor(Dimension dimension, int playerId) {
+    public BattleFloor(Dimension dimension, List<Ship> ships) {
         this.area = new int[dimension.WIDTH][dimension.HEIGHT];
-        this.playerId = playerId;
+        ships.stream().forEach(this::positionShipToFloor);
     }
 
-    public void positionShipToFloor(Ship ship) {
+    private void positionShipToFloor(Ship ship) {
         int shipHeight, shipWidth;
         shipHeight = shipWidth = 0;
         do {
@@ -48,7 +49,7 @@ public class BattleFloor {
         return this.area[x][y];
     }
 
-    public boolean completlyDestroyed() {
+    boolean completlyDestroyed() {
         int temp = 0;
         for (int i = 0; i < this.area.length; i++) {
             for (int j = 0; j < this.area[0].length; j++) {

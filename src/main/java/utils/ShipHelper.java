@@ -9,11 +9,11 @@ import static utils.PositionHelper.toInt;
 
 public class ShipHelper {
 
-    public static Ship parseShipDetails(String data, int playerId) {
+    public static Ship parseShipDetails(String data, int playerIndex) {
         String[] temp = data.split(" ");
         ShipType shipType = ShipType.findByName(temp[0]);
         Dimension dimension = new Dimension(toInt(temp[2], false), toInt(temp[1], false));
-        Position initialPosition = playerId == 1 ? PositionHelper.toBedCooridinates(temp[3]) : PositionHelper.toBedCooridinates(temp[4]);
+        Position initialPosition = PositionHelper.toBedCooridinates(temp[playerIndex]);
         return new Ship(dimension, initialPosition, shipType);
     }
 }

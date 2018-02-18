@@ -1,4 +1,3 @@
-import domain.BattleFloor;
 import domain.Dimension;
 import domain.Player;
 import domain.Ship;
@@ -8,6 +7,7 @@ import utils.PositionHelper;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.System.out;
@@ -37,48 +37,46 @@ public class BattleShipStarter {
         Dimension battleGroundDim = PositionHelper.toAreaDimensions(inputLine1);
         InputValidator.validateBattleGroundDimension(battleGroundDim);
 
-        //Initialize player
-        Player playerA = new Player(1);
-        Player playerB = new Player(2);
-
-        //Initialize players battlefloor
-        BattleFloor playerABed = new BattleFloor(battleGroundDim, playerA.playerId);
-        BattleFloor playerBBed = new BattleFloor(battleGroundDim, playerB.playerId);
-
         //No of battleships
         String inputLine2 = lines.get(1);
         int noOfBattleShips = Integer.parseInt(inputLine2);
         InputValidator.validateNoOfBattleShips(noOfBattleShips, battleGroundDim);
 
+        List<Ship> playerAShips = new ArrayList();
+        List<Ship> playerBShips = new ArrayList();
 
         //Parse input and position battleships for both players
         for (int i = 0; i < noOfBattleShips; i++) {
-            Ship aShip = parseShipDetails(lines.get(2 + i), playerA.playerId);
-            Ship bShip = parseShipDetails(lines.get(2 + i), playerB.playerId);
+            Ship aShip = parseShipDetails(lines.get(2 + i), 3);
+            Ship bShip = parseShipDetails(lines.get(2 + i), 4);
             InputValidator.validateShip(aShip, battleGroundDim);
             InputValidator.validateShip(bShip, battleGroundDim);
-            playerABed.positionShipToFloor(aShip);
-            playerBBed.positionShipToFloor(bShip);
+            playerAShips.add(aShip);
+            playerBShips.add(bShip);
         }
 
         //Load player attack positions
         String playerAAttackCoordinates = lines.get(2 + noOfBattleShips);
         String playerBAttackCoordinates = lines.get(3 + noOfBattleShips);
-        playerA.setAttackPositions(PositionHelper.convertToList(playerAAttackCoordinates));
-        playerB.setAttackPositions(PositionHelper.convertToList(playerBAttackCoordinates));
+        List<String> attackAPositions = PositionHelper.convertToList(playerAAttackCoordinates);
+        List<String> attackBPositions = PositionHelper.convertToList(playerBAttackCoordinates);
+
+        //Initialize player
+        Player playerA = new Player(1, battleGroundDim, playerAShips, attackAPositions);
+        Player playerB = new Player(2, battleGroundDim, playerBShips, attackBPositions);
 
         //Shooting Begins
-        while (eitherPlayerBattleShipsSurvives(playerABed, playerBBed) && missilesLeftForAnyPlayer(playerA, playerB)) {
+        while (eitherPlayerBattleShipsSurvives(playerA, playerB) && missilesLeftForAnyPlayer(playerA, playerB)) {
             boolean hit;
             if (activePlayer == 1) {
-                hit = playerBBed.attackAt(playerA.getNextAttackPosition(), playerA.playerId);
+                hit = playerB.receiveAttack(playerA.getNextAttackPosition(), playerA.playerId);
             } else {
-                hit = playerABed.attackAt(playerB.getNextAttackPosition(), playerB.playerId);
+                hit = playerA.receiveAttack(playerB.getNextAttackPosition(), playerB.playerId);
             }
             computeActivePlayer(hit);
         }
 
-        if (doWeHaveAChampion(playerABed, playerBBed)) {
+        if (doWeHaveAChampion(playerA, playerB)) {
             out.println("Player-" + activePlayer + " won the battle");
         } else {
             out.println("Peace begins...");
@@ -91,12 +89,12 @@ public class BattleShipStarter {
         }
     }
 
-    private static boolean eitherPlayerBattleShipsSurvives(BattleFloor A, BattleFloor B) {
-        return !doWeHaveAChampion(A, B);
+    private static boolean eitherPlayerBattleShipsSurvives(Player playerA, Player playerB) {
+        return !doWeHaveAChampion(playerA, playerB);
     }
 
-    private static boolean doWeHaveAChampion(BattleFloor A, BattleFloor B) {
-        return A.completlyDestroyed() || B.completlyDestroyed();
+    private static boolean doWeHaveAChampion(Player playerA, Player playerB) {
+        return playerA.lost() || playerB.lost();
     }
 
     private static boolean missilesLeftForAnyPlayer(Player playerA, Player playerB) {
