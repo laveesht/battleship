@@ -12,11 +12,11 @@ import java.util.List;
 
 import static java.lang.System.out;
 import static java.util.stream.Collectors.toList;
-import static utils.PositionHelper.toListOfAttackPositions;
 import static utils.ShipHelper.parseShipDetails;
 
 /*
  * Assumptions -
+ * 1. Twin player game
  * 1. player1 takes first turn
  * 2. player #missiles = no of attack positions
  *
@@ -37,42 +37,43 @@ public class BattleShipStarter {
         Dimension battleGroundDim = PositionHelper.toAreaDimensions(inputLine1);
         InputValidator.validateBattleGroundDimension(battleGroundDim);
 
-        BattleFloor playerABed = new BattleFloor(battleGroundDim);
-        BattleFloor playerBBed = new BattleFloor(battleGroundDim);
+        //Initialize player
+        Player playerA = new Player(1);
+        Player playerB = new Player(2);
+
+        //Initialize players battlefloor
+        BattleFloor playerABed = new BattleFloor(battleGroundDim, playerA.playerId);
+        BattleFloor playerBBed = new BattleFloor(battleGroundDim, playerB.playerId);
 
         //No of battleships
         String inputLine2 = lines.get(1);
         int noOfBattleShips = Integer.parseInt(inputLine2);
         InputValidator.validateNoOfBattleShips(noOfBattleShips, battleGroundDim);
 
-        //Position Battleships
+
+        //Parse input and position battleships for both players
         for (int i = 0; i < noOfBattleShips; i++) {
-            Ship aShip = parseShipDetails(lines.get(2 + i), 1);
-            Ship bShip = parseShipDetails(lines.get(2 + i), 2);
+            Ship aShip = parseShipDetails(lines.get(2 + i), playerA.playerId);
+            Ship bShip = parseShipDetails(lines.get(2 + i), playerB.playerId);
             InputValidator.validateShip(aShip, battleGroundDim);
             InputValidator.validateShip(bShip, battleGroundDim);
             playerABed.positionShipToFloor(aShip);
             playerBBed.positionShipToFloor(bShip);
         }
 
-        //Player Attack Positions
+        //Load player attack positions
         String playerAAttackCoordinates = lines.get(2 + noOfBattleShips);
         String playerBAttackCoordinates = lines.get(3 + noOfBattleShips);
-
-        List<String> playerAAttackPositions = toListOfAttackPositions(playerAAttackCoordinates);
-        List<String> playerBAttackPositions = toListOfAttackPositions(playerBAttackCoordinates);
-
-
-        Player playerA = new Player(1, playerAAttackPositions);
-        Player playerB = new Player(2, playerBAttackPositions);
+        playerA.setAttackPositions(PositionHelper.convertToList(playerAAttackCoordinates));
+        playerB.setAttackPositions(PositionHelper.convertToList(playerBAttackCoordinates));
 
         //Shooting Begins
         while (eitherPlayerBattleShipsSurvives(playerABed, playerBBed) && missilesLeftForAnyPlayer(playerA, playerB)) {
             boolean hit;
             if (activePlayer == 1) {
-                hit = playerA.shoot(playerBBed);
+                hit = playerBBed.attackAt(playerA.getNextAttackPosition(), playerA.playerId);
             } else {
-                hit = playerB.shoot(playerABed);
+                hit = playerABed.attackAt(playerB.getNextAttackPosition(), playerB.playerId);
             }
             computeActivePlayer(hit);
         }
@@ -103,4 +104,3 @@ public class BattleShipStarter {
     }
 
 }
-

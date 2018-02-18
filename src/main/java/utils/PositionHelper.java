@@ -34,7 +34,7 @@ public class PositionHelper {
         return new Dimension(width, height);
     }
 
-    public static List<String> toListOfAttackPositions(String attackString) {
+    public static List<String> convertToList(String attackString) {
         return Stream.of(attackString.split(" ")).collect(toList());
     }
 }

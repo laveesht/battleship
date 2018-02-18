@@ -4,25 +4,27 @@ import java.util.List;
 
 public class Player {
     public final int playerId;
-    public final List<String> attackPositions;
+    private List<String> attackPositions;
     private int attackPositionIndex = 0;
 
-    public Player(int playerId, List<String> attackPositions) {
+    public Player(int playerId) {
         this.playerId = playerId;
-        this.attackPositions = attackPositions;
     }
 
-    public boolean shoot(BattleFloor playerBBed) {
+    public String getNextAttackPosition() {
         if (!anyMissilesLeft()) {
-            System.out.println("Player-" + playerId + " has no more missiles left to launch");
-            return false;
+            return "";
         }
         String attackPosition = this.attackPositions.get(attackPositionIndex);
         attackPositionIndex++;
-        return playerBBed.attackAt(attackPosition, playerId);
+        return attackPosition;
     }
 
     public boolean anyMissilesLeft() {
         return this.attackPositionIndex <= attackPositions.size() - 1;
+    }
+
+    public void setAttackPositions(List<String> attackPositions) {
+        this.attackPositions = attackPositions;
     }
 }
