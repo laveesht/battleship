@@ -15,8 +15,17 @@ import static java.util.stream.Collectors.toList;
 import static utils.PositionHelper.toListOfAttackPositions;
 import static utils.ShipHelper.parseShipDetails;
 
+/*
+ * Assumptions -
+ * 1. player1 takes first turn
+ * 2. player #missiles = no of attack positions
+ *
+ * Input -
+ * 1. Input file path should be passed as command line params
+ * */
+
 public class BattleShipStarter {
-    private static int activePlayer = 1; //ASSUMPTION: player1 takes first turn
+    private static int activePlayer = 1;
 
     public static void main(String args[]) throws IOException {
         String inputFilePath = args.length > 0 ? args[0] : "src/main/resources/input.txt";

@@ -50,6 +50,5 @@ public class BattleFloorSpecTest {
         assertEquals(1, battleFloor.getPositionWeight(0, 1));
         assertFalse(battleFloor.attackAt("21", 1));
         assertEquals("Player-1 fires a missile with target 21 which got miss", outContent.toString().trim());
-        assertEquals(1, battleFloor.getPositionWeight(0, 1));
     }
 }
