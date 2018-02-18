@@ -12,12 +12,12 @@ public class PositionSpecTest {
 
     @Test
     public void correctlyParseBedPositions2() {
-        assertEquals(PositionHelper.toBedCooridinates("Z3").toString(), "252");
+        assertEquals("252", PositionHelper.toBedCooridinates("Z3").toString());
     }
 
     @Test
     public void correctBattleGroundDimensions() {
-        assertEquals(PositionHelper.toAreaDimensions("5 E").toString(), "5X5");
+        assertEquals("5X5", PositionHelper.toAreaDimensions("5 E").toString());
     }
 
 }

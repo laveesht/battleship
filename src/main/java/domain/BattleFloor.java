@@ -38,6 +38,20 @@ public class BattleFloor {
         return false;
     }
 
+    public int getPositionWeight(int x, int y) {
+        return this.area[x][y];
+    }
+
+    public void display() {
+        int temp = 0;
+        for (int i = 0; i < this.area.length; i++) {
+            System.out.println();
+            for (int j = 0; j < this.area[0].length; j++) {
+                System.out.print(this.area[i][j]);
+            }
+        }
+    }
+
     public boolean completlyDestroyed() {
         int temp = 0;
         for (int i = 0; i < this.area.length; i++) {
