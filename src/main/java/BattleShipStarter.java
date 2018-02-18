@@ -16,7 +16,7 @@ import static utils.PositionHelper.toListOfAttackPositions;
 import static utils.ShipHelper.parseShipDetails;
 
 public class BattleShipStarter {
-    public static int activePlayer = 1; //ASSUMPTION: player1 takes first turn
+    private static int activePlayer = 1; //ASSUMPTION: player1 takes first turn
 
     public static void main(String args[]) throws IOException {
         String inputFilePath = args.length > 0 ? args[0] : "src/main/resources/input.txt";
