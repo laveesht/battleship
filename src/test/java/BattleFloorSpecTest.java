@@ -1,7 +1,7 @@
 import domain.BattleFloor;
 import domain.Dimension;
-import domain.Position;
-import domain.Ship;
+import domain.Coordinates;
+import domain.BattleShip;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,8 +9,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
 
-import static domain.Ship.ShipType.P;
-import static domain.Ship.ShipType.Q;
+import static domain.BattleShip.ShipType.P;
+import static domain.BattleShip.ShipType.Q;
 import static org.junit.Assert.*;
 
 public class BattleFloorSpecTest {
@@ -19,9 +19,9 @@ public class BattleFloorSpecTest {
 
     @Before
     public void resetFloor() {
-        Ship ship1 = new Ship(new Dimension(2, 1), new Position(0, 1), P);
-        Ship ship2 = new Ship(new Dimension(2, 1), new Position(3, 4), Q);
-        battleFloor = new BattleFloor(new Dimension(5, 5), Arrays.asList(ship1, ship2));
+        BattleShip battleShip1 = new BattleShip(new Dimension(2, 1), new Coordinates(0, 1), P);
+        BattleShip battleShip2 = new BattleShip(new Dimension(2, 1), new Coordinates(3, 4), Q);
+        battleFloor = new BattleFloor(new Dimension(5, 5), Arrays.asList(battleShip1, battleShip2));
         System.setOut(new PrintStream(outContent));
     }
 

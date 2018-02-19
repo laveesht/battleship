@@ -11,22 +11,22 @@ import static java.lang.System.out;
 public class BattleFloor {
     private int[][] area;
 
-    public BattleFloor(Dimension dimension, List<Ship> ships) {
+    public BattleFloor(Dimension dimension, List<BattleShip> battleShips) {
         this.area = new int[dimension.WIDTH][dimension.HEIGHT];
-        ships.stream().forEach(this::positionShipToFloor);
+        battleShips.stream().forEach(this::positionShipToFloor);
     }
 
-    private void positionShipToFloor(Ship ship) {
+    private void positionShipToFloor(BattleShip battleShip) {
         int shipHeight, shipWidth;
         shipHeight = shipWidth = 0;
         do {
-            this.area[ship.initialPosition.xCoord][ship.initialPosition.yCoord + shipHeight] = ship.shipType.weight;
+            this.area[battleShip.coord.x][battleShip.coord.y + shipHeight] = battleShip.shipType.weight;
             shipHeight++;
-        } while (shipHeight < ship.dim.HEIGHT);
+        } while (shipHeight < battleShip.dim.HEIGHT);
         do {
-            this.area[ship.initialPosition.xCoord + shipWidth][ship.initialPosition.yCoord] = ship.shipType.weight;
+            this.area[battleShip.coord.x + shipWidth][battleShip.coord.y] = battleShip.shipType.weight;
             shipWidth++;
-        } while (shipWidth < ship.dim.WIDTH);
+        } while (shipWidth < battleShip.dim.WIDTH);
     }
 
     public boolean attackAt(String stringPosition, int playerId) {
@@ -34,10 +34,10 @@ public class BattleFloor {
             System.out.println("Player-" + playerId + " has no more missiles left to launch");
             return false;
         }
-        Position position = PositionHelper.toBedCooridinates(stringPosition);
-        int positionWeight = this.area[position.xCoord][position.yCoord];
+        Coordinates pos = PositionHelper.toFloorCooridinates(stringPosition);
+        int positionWeight = this.area[pos.x][pos.y];
         if (positionWeight > 0) {
-            this.area[position.xCoord][position.yCoord] = positionWeight - 1;
+            this.area[pos.x][pos.y] = positionWeight - 1;
             out.println("Player-" + playerId + " fires a missile with target " + stringPosition + " which got hit");
             return true;
         }

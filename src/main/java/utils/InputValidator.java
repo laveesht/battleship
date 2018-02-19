@@ -1,7 +1,7 @@
 package utils;
 
 import domain.Dimension;
-import domain.Ship;
+import domain.BattleShip;
 import org.apache.commons.lang3.Range;
 
 public class InputValidator {
@@ -18,14 +18,14 @@ public class InputValidator {
         }
     }
 
-    public static void validateShip(Ship aShip, Dimension battleGroundDim) {
-        if (isOutsideRange(1, battleGroundDim.WIDTH, aShip.dim.WIDTH) ||
-                isOutsideRange(1, battleGroundDim.HEIGHT, aShip.dim.HEIGHT)) {
+    public static void validateShip(BattleShip aBattleShip, Dimension battleGroundDim) {
+        if (isOutsideRange(1, battleGroundDim.WIDTH, aBattleShip.dim.WIDTH) ||
+                isOutsideRange(1, battleGroundDim.HEIGHT, aBattleShip.dim.HEIGHT)) {
             throw new IllegalArgumentException("Battleship dimension out of range");
         }
 
-        if (isOutsideRange(0, battleGroundDim.WIDTH - 1, aShip.initialPosition.xCoord) ||
-                isOutsideRange(0, battleGroundDim.HEIGHT - 1, aShip.initialPosition.yCoord)) {
+        if (isOutsideRange(0, battleGroundDim.WIDTH - 1, aBattleShip.coord.x) ||
+                isOutsideRange(0, battleGroundDim.HEIGHT - 1, aBattleShip.coord.y)) {
             throw new IllegalArgumentException("Battleship position out of range");
         }
 

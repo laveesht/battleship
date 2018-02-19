@@ -1,7 +1,7 @@
 package utils;
 
 import domain.Dimension;
-import domain.Position;
+import domain.Coordinates;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
@@ -11,10 +11,10 @@ import static java.util.stream.Collectors.toList;
 
 public class PositionHelper {
 
-    public static Position toBedCooridinates(String positions) {
+    public static Coordinates toFloorCooridinates(String positions) {
         int xPos = toInt(positions.substring(0, 1), true);
         int yPos = toInt(positions.substring(1, 2), true);
-        return new Position(xPos, yPos);
+        return new Coordinates(xPos, yPos);
     }
 
     public static int toInt(String c, boolean zerobasedIndexing) {

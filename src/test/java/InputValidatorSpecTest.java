@@ -1,12 +1,12 @@
 import domain.Dimension;
-import domain.Position;
-import domain.Ship;
+import domain.Coordinates;
+import domain.BattleShip;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import utils.InputValidator;
 
-import static domain.Ship.ShipType.P;
+import static domain.BattleShip.ShipType.P;
 
 public class InputValidatorSpecTest {
     @Rule
@@ -14,9 +14,9 @@ public class InputValidatorSpecTest {
 
     private Dimension validDimesion = new Dimension(2, 2);
     private Dimension inValidDimesion = new Dimension(0, 0);
-    private Ship ship = new Ship(new Dimension(2, 1), new Position(0, 1), P);
-    private Ship incorrectShipDimesion = new Ship(new Dimension(4, 1), new Position(0, 1), P);
-    private Ship incorrectShipPosition = new Ship(new Dimension(2, 1), new Position(0, 4), P);
+    private BattleShip battleShip = new BattleShip(new Dimension(2, 1), new Coordinates(0, 1), P);
+    private BattleShip incorrectBattleShipDimesion = new BattleShip(new Dimension(4, 1), new Coordinates(0, 1), P);
+    private BattleShip incorrectBattleShipPosition = new BattleShip(new Dimension(2, 1), new Coordinates(0, 4), P);
 
     @Test(expected = IllegalArgumentException.class)
     public void incorrectBattleFloorDimensions() {
@@ -35,20 +35,20 @@ public class InputValidatorSpecTest {
 
     @Test
     public void correctBattleShipConfigs() {
-        InputValidator.validateShip(ship, validDimesion);
+        InputValidator.validateShip(battleShip, validDimesion);
     }
 
     @Test
     public void inCorrectBattleShipDimension() {
         expectedEx.expect(IllegalArgumentException.class);
         expectedEx.expectMessage("Battleship dimension out of range");
-        InputValidator.validateShip(incorrectShipDimesion, validDimesion);
+        InputValidator.validateShip(incorrectBattleShipDimesion, validDimesion);
     }
 
     @Test
     public void inCorrectBattleShipPosition() {
         expectedEx.expect(IllegalArgumentException.class);
         expectedEx.expectMessage("Battleship position out of range");
-        InputValidator.validateShip(incorrectShipPosition, validDimesion);
+        InputValidator.validateShip(incorrectBattleShipPosition, validDimesion);
     }
 }

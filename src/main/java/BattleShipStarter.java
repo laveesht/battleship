@@ -1,6 +1,6 @@
 import domain.Dimension;
 import domain.Player;
-import domain.Ship;
+import domain.BattleShip;
 import utils.InputValidator;
 import utils.PositionHelper;
 
@@ -42,17 +42,17 @@ public class BattleShipStarter {
         int noOfBattleShips = Integer.parseInt(inputLine2);
         InputValidator.validateNoOfBattleShips(noOfBattleShips, battleGroundDim);
 
-        List<Ship> playerAShips = new ArrayList();
-        List<Ship> playerBShips = new ArrayList();
+        List<BattleShip> playerABattleShips = new ArrayList();
+        List<BattleShip> playerBBattleShips = new ArrayList();
 
         //Parse input and position battleships for both players
         for (int i = 0; i < noOfBattleShips; i++) {
-            Ship aShip = parseShipDetails(lines.get(2 + i), 3);
-            Ship bShip = parseShipDetails(lines.get(2 + i), 4);
-            InputValidator.validateShip(aShip, battleGroundDim);
-            InputValidator.validateShip(bShip, battleGroundDim);
-            playerAShips.add(aShip);
-            playerBShips.add(bShip);
+            BattleShip aBattleShip = parseShipDetails(lines.get(2 + i), 3);
+            BattleShip bBattleShip = parseShipDetails(lines.get(2 + i), 4);
+            InputValidator.validateShip(aBattleShip, battleGroundDim);
+            InputValidator.validateShip(bBattleShip, battleGroundDim);
+            playerABattleShips.add(aBattleShip);
+            playerBBattleShips.add(bBattleShip);
         }
 
         //Load player attack positions
@@ -62,8 +62,8 @@ public class BattleShipStarter {
         List<String> attackBPositions = PositionHelper.convertToList(playerBAttackCoordinates);
 
         //Initialize player
-        Player playerA = new Player(1, battleGroundDim, playerAShips, attackAPositions);
-        Player playerB = new Player(2, battleGroundDim, playerBShips, attackBPositions);
+        Player playerA = new Player(1, battleGroundDim, playerABattleShips, attackAPositions);
+        Player playerB = new Player(2, battleGroundDim, playerBBattleShips, attackBPositions);
 
         //Shooting Begins
         while (eitherPlayerBattleShipsSurvives(playerA, playerB) && missilesLeftForAnyPlayer(playerA, playerB)) {

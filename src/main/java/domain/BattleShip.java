@@ -1,19 +1,19 @@
 package domain;
 
-public class Ship {
+public class BattleShip {
     final public Dimension dim;
-    final public Position initialPosition;
+    final public Coordinates coord;
     final public ShipType shipType;
 
-    public Ship(Dimension dim, Position initialPosition, ShipType shipType) {
+    public BattleShip(Dimension dim, Coordinates coord, ShipType shipType) {
         this.dim = dim;
-        this.initialPosition = initialPosition;
+        this.coord = coord;
         this.shipType = shipType;
     }
 
     @Override
     public String toString() {
-        return dim + "-" + initialPosition + "-" + shipType;
+        return dim + "-" + coord + "-" + shipType;
     }
 
     public enum ShipType {

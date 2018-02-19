@@ -3,7 +3,7 @@ import utils.ShipHelper;
 
 import static org.junit.Assert.assertEquals;
 
-public class ShipSpecTest {
+public class BattleShipSpecTest {
 
     @Test
     public void correctlyParseShipForPlayerA1() {

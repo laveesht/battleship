@@ -8,9 +8,9 @@ public class Player {
     private final List<String> missilePositions;
     private int missilePositionIndex = 0;
 
-    public Player(int playerId, Dimension dim, List<Ship> ships, List<String> missilePositions) {
+    public Player(int playerId, Dimension dim, List<BattleShip> battleShips, List<String> missilePositions) {
         this.playerId = playerId;
-        this.battleFloor = new BattleFloor(dim, ships);
+        this.battleFloor = new BattleFloor(dim, battleShips);
         this.missilePositions = missilePositions;
     }
 

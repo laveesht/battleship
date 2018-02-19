@@ -3,16 +3,16 @@ import utils.PositionHelper;
 
 import static org.junit.Assert.assertEquals;
 
-public class PositionSpecTest {
+public class CoordinatesSpecTest {
 
     @Test
     public void correctlyParseBedPositions1() {
-        assertEquals(PositionHelper.toBedCooridinates("A3").toString(), "02");
+        assertEquals(PositionHelper.toFloorCooridinates("A3").toString(), "02");
     }
 
     @Test
     public void correctlyParseBedPositions2() {
-        assertEquals("252", PositionHelper.toBedCooridinates("Z3").toString());
+        assertEquals("252", PositionHelper.toFloorCooridinates("Z3").toString());
     }
 
     @Test
