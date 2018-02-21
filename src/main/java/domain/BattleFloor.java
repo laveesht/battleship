@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import utils.PositionHelper;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 import static java.lang.System.out;
 
@@ -13,20 +14,16 @@ public class BattleFloor {
 
     public BattleFloor(Dimension dimension, List<BattleShip> battleShips) {
         this.area = new int[dimension.WIDTH][dimension.HEIGHT];
-        battleShips.stream().forEach(this::positionShipToFloor);
+        battleShips.stream().forEach(this::positionShip);
     }
 
-    private void positionShipToFloor(BattleShip battleShip) {
-        int shipHeight, shipWidth;
-        shipHeight = shipWidth = 0;
-        do {
-            this.area[battleShip.coord.x][battleShip.coord.y + shipHeight] = battleShip.shipType.weight;
-            shipHeight++;
-        } while (shipHeight < battleShip.dim.HEIGHT);
-        do {
-            this.area[battleShip.coord.x + shipWidth][battleShip.coord.y] = battleShip.shipType.weight;
-            shipWidth++;
-        } while (shipWidth < battleShip.dim.WIDTH);
+    private void positionShip(BattleShip battleShip) {
+        IntStream.range(0, battleShip.dim.HEIGHT).forEach(index -> {
+            this.area[battleShip.coord.x][battleShip.coord.y + index] = battleShip.shipType.weight;
+        });
+        IntStream.range(0, battleShip.dim.WIDTH).forEach(index -> {
+            this.area[battleShip.coord.x + index][battleShip.coord.y] = battleShip.shipType.weight;
+        });
     }
 
     public boolean attackAt(String stringPosition, int playerId) {
