@@ -24,7 +24,7 @@ import static utils.ShipHelper.parseShipDetails;
  * 1. Input file path should be passed as command line params
  * */
 
-public class BattleShipStarter {
+public class Starter {
     private static int activePlayer = 1;
 
     public static void main(String args[]) throws IOException {
@@ -32,38 +32,48 @@ public class BattleShipStarter {
 
         List<String> lines = Files.lines(Paths.get(inputFilePath)).collect(toList());
 
+
+        //File Parsing
         //BattleGround dimensions
         String inputLine1 = lines.get(0);
-        Dimension battleGroundDim = PositionHelper.toAreaDimensions(inputLine1);
-        InputValidator.validateBattleGroundDimension(battleGroundDim);
-
+        Dimension battleFloorDim = PositionHelper.toAreaDimensions(inputLine1);
         //No of battleships
         String inputLine2 = lines.get(1);
-        int noOfBattleShips = Integer.parseInt(inputLine2);
-        InputValidator.validateNoOfBattleShips(noOfBattleShips, battleGroundDim);
+        int battleShipCount = Integer.parseInt(inputLine2);
+
 
         List<BattleShip> playerABattleShips = new ArrayList();
         List<BattleShip> playerBBattleShips = new ArrayList();
 
         //Parse input and position battleships for both players
-        for (int i = 0; i < noOfBattleShips; i++) {
+        for (int i = 0; i < battleShipCount; i++) {
             BattleShip aBattleShip = parseShipDetails(lines.get(2 + i), 3);
             BattleShip bBattleShip = parseShipDetails(lines.get(2 + i), 4);
-            InputValidator.validateShip(aBattleShip, battleGroundDim);
-            InputValidator.validateShip(bBattleShip, battleGroundDim);
             playerABattleShips.add(aBattleShip);
             playerBBattleShips.add(bBattleShip);
         }
 
+
+        //Input validators
+        InputValidator.validateBattleGroundDimension(battleFloorDim);
+        InputValidator.validateNoOfBattleShips(battleShipCount, battleFloorDim);
+
+        InputValidator.validateShips(playerABattleShips, battleFloorDim);
+        InputValidator.validateShips(playerBBattleShips, battleFloorDim);
+        // Firing Begins
+
+
+
+
         //Load player attack positions
-        String playerAAttackCoordinates = lines.get(2 + noOfBattleShips);
-        String playerBAttackCoordinates = lines.get(3 + noOfBattleShips);
+        String playerAAttackCoordinates = lines.get(2 + battleShipCount);
+        String playerBAttackCoordinates = lines.get(3 + battleShipCount);
         List<String> attackAPositions = PositionHelper.convertToList(playerAAttackCoordinates);
         List<String> attackBPositions = PositionHelper.convertToList(playerBAttackCoordinates);
 
         //Initialize player
-        Player playerA = new Player(1, battleGroundDim, playerABattleShips, attackAPositions);
-        Player playerB = new Player(2, battleGroundDim, playerBBattleShips, attackBPositions);
+        Player playerA = new Player(1, battleFloorDim, playerABattleShips, attackAPositions);
+        Player playerB = new Player(2, battleFloorDim, playerBBattleShips, attackBPositions);
 
         //Shooting Begins
         while (eitherPlayerBattleShipsSurvives(playerA, playerB) && missilesLeftForAnyPlayer(playerA, playerB)) {

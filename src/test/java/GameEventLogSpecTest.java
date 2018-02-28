@@ -21,7 +21,7 @@ public class GameEventLogSpecTest {
 
     @Test
     public void testGameEventLogs() throws IOException {
-        BattleShipStarter.main(new String[]{});
+        Starter.main(new String[]{});
         assertTrue(verifyGameEventLogs(outContent.toString().split("\n"), "src/test/resources/input_event_log.txt"));
     }
 
