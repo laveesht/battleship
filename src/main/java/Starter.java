@@ -1,6 +1,6 @@
+import domain.BattleShip;
 import domain.Dimension;
 import domain.Player;
-import domain.BattleShip;
 import utils.InputValidator;
 import utils.PositionHelper;
 
@@ -33,7 +33,7 @@ public class Starter {
         List<String> lines = Files.lines(Paths.get(inputFilePath)).collect(toList());
 
 
-        //File Parsing
+        /*File Parsing*/
         //BattleGround dimensions
         String inputLine1 = lines.get(0);
         Dimension battleFloorDim = PositionHelper.toAreaDimensions(inputLine1);
@@ -53,24 +53,16 @@ public class Starter {
             playerBBattleShips.add(bBattleShip);
         }
 
-
-        //Input validators
-        InputValidator.validateBattleGroundDimension(battleFloorDim);
-        InputValidator.validateNoOfBattleShips(battleShipCount, battleFloorDim);
-
-        InputValidator.validateShips(playerABattleShips, battleFloorDim);
-        InputValidator.validateShips(playerBBattleShips, battleFloorDim);
-        // Firing Begins
-
-
-
-
         //Load player attack positions
         String playerAAttackCoordinates = lines.get(2 + battleShipCount);
         String playerBAttackCoordinates = lines.get(3 + battleShipCount);
         List<String> attackAPositions = PositionHelper.convertToList(playerAAttackCoordinates);
         List<String> attackBPositions = PositionHelper.convertToList(playerBAttackCoordinates);
 
+
+        InputValidator.validate(battleFloorDim, battleShipCount, playerABattleShips, playerBBattleShips);
+
+        /*Firing Begins*/
         //Initialize player
         Player playerA = new Player(1, battleFloorDim, playerABattleShips, attackAPositions);
         Player playerB = new Player(2, battleFloorDim, playerBBattleShips, attackBPositions);

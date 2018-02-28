@@ -7,6 +7,16 @@ import org.apache.commons.lang3.Range;
 import java.util.List;
 
 public class InputValidator {
+    public static void validate(Dimension battleFloorDim, int battleShipCount, List playerABattleShips, List playerBBattleShips) {
+        /*Input validators*/
+        InputValidator.validateBattleGroundDimension(battleFloorDim);
+        InputValidator.validateNoOfBattleShips(battleShipCount, battleFloorDim);
+
+        InputValidator.validateShips(playerABattleShips, battleFloorDim);
+        InputValidator.validateShips(playerBBattleShips, battleFloorDim);
+    }
+
+
     public static void validateBattleGroundDimension(Dimension dimension) {
         if (isDimensionOutsideRange(1, 9, dimension.WIDTH) ||
                 isDimensionOutsideRange(1, 25, dimension.HEIGHT)) {
